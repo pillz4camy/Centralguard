@@ -1,0 +1,28 @@
+{
+  "name": "centralguard",
+  "version": "1.0.0",
+  "description": "centralguard",
+  "keywords": [
+    "node",
+    "express",
+    "multer",
+    "mogoose",
+    "bycrypt",
+    "jwt"
+  ],
+    "contributors": [
+    "Kevin Enciso <kevinencisoe@gmail.com>",
+    "Daniel Reyes <yhesua.1979@gmail.com>",
+    "Angie Fajardo <angiepaolafajardo23@gmail.com>"
+  ],
+  "license": "ISC",
+  "author": "Paula Suárez <cammplss@gmail.com>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+    "dependencies": {
+    "express": "^5.2.1"
+  }
+}
