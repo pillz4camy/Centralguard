@@ -1,7 +1,8 @@
-// const express = require('express');   // CommonJS
-import express from 'express';           // ESModule
+import express from 'express';           
+import userRouter from './routers/user.routers.js'; 
 
 const app = express();
+app.use(express.json());
 
 // Definiendo 1 endpoint (ruta de entrada)
 app.get('/health', (req, res) => {
@@ -33,6 +34,7 @@ app.delete('/users', (req, res) => {
     res.json({ msg: 'Elimina un usuario' });
 });
 
+app.use("/api/Users", userRouter); 
 
 // Iniciar el servidor
 const port = 3000;
