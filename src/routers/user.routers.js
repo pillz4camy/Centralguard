@@ -6,7 +6,7 @@ import {
     actualizarUsers, 
     actualizarParcialUsers, 
     eliminarUsers 
-} from "../controlles/user.controlles.js";
+} from "../controllers/user.controllers.js";
 
 const router = Router();
 

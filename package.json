@@ -6,11 +6,11 @@
     "node",
     "express",
     "multer",
-    "mogoose",
+    "mongoose",
     "bycrypt",
     "jwt"
   ],
-    "contributors": [
+  "contributors": [
     "Kevin Enciso <kevinencisoe@gmail.com>",
     "Daniel Reyes <yhesua.1979@gmail.com>",
     "Angie Fajardo <angiepaolafajardo23@gmail.com>"
@@ -22,7 +22,8 @@
   "scripts": {
     "dev": "node --watch src/index.js"
   },
-    "dependencies": {
-    "express": "^5.2.1"
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.11.2"
   }
 }

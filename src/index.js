@@ -1,40 +1,20 @@
 import express from 'express';           
+import conexion from './config/mongo.config.js'; // 1. Importas la conexión de MongoDB
 import userRouter from './routers/user.routers.js'; 
 
 const app = express();
 app.use(express.json());
 
-// Definiendo 1 endpoint (ruta de entrada)
+// 2. Ejecutas la conexión a la base de datos
+conexion();
+
+// Ruta de prueba general (Health check)
 app.get('/health', (req, res) => {
-    res.json({ msg: 'Servidor de SenaStore Funcionando!' });
+    res.json({ msg: 'Servidor de CentralGuard Funcionando!' });
 });
 
-// Obtener todos usuarios
-app.get('/users', (req, res) => {
-    res.json({ msg: 'Listar todos los usuarios' });
-});
-
-// Crear un usuario
-app.post('/users', (req, res) => {
-    res.json({ msg: 'Registra usuario' });
-});
-
-// Actualizar totalmente
-app.put('/users', (req, res) => {
-    res.json({ msg: 'Actualizar todos las propiedades de un usuario' });
-});
-
-// Actualizar parcialmente
-app.patch('/users', (req, res) => {
-    res.json({ msg: 'Actualizar una o mas propiedades del usuario' });
-});
-
-// Eliminar un usuario
-app.delete('/users', (req, res) => {
-    res.json({ msg: 'Elimina un usuario' });
-});
-
-app.use("/api/Users", userRouter); 
+// Rutas de usuarios manejadas por el enrutador (/api/users)
+app.use("/api/users", userRouter); 
 
 // Iniciar el servidor
 const port = 3000;
