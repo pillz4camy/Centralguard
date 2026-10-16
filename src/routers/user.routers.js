@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import { 
     getUsers, 
     registrarUsers, 
@@ -12,8 +11,8 @@ const router = Router();
 
 router.get('/', getUsers);
 router.post('/', registrarUsers);
-router.put('/', actualizarUsers);
-router.patch('/', actualizarParcialUsers);
-router.delete('/', eliminarUsers);
+router.put('/:id', actualizarUsers);       // Agregado :id
+router.patch('/:id', actualizarParcialUsers); // Agregado :id
+router.delete('/:id', eliminarUsers);    // Agregado :id
 
 export default router;
