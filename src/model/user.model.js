@@ -1,32 +1,36 @@
 import mongoose from "mongoose";
 
-// Parte 1 : definir la estructura de datos de mi documento 
+// Estructura actualizada según tu nuevo diagrama relacional
 const UserSchema = new mongoose.Schema({
-    name: {
-        type: String,                //tipo dato
-        required: true,               // Regla: Es obligatorio
-        trim: true                   //modificador
+    correo: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true 
     },
-    email: {
+    contrasenia: {
         type: String,
         required: true,
         trim: true 
     },
-    password: {
+    nombre: {
         type: String,
-        trim: true,
-        required: true 
+        required: true,
+        trim: true 
     },
-    role: {
+    apellido: {
         type: String,
-        enum: ['ADMIN', 'SELLER'],
-        default: 'ADMIN'
+        required: true,
+        trim: true 
     }
-},{
-    timestamps: true       //Crear automaticamente createAT, uPDATEAT
+}, {
+    timestamps: { 
+        createdAt: 'fecha_creacion', 
+        updatedAt: false 
+    },
+    versionKey: false 
 });
 
-// Parte 2 : definir el modelo. Dicho modelo esta atado al nombre del documento
 const UserModel = mongoose.model('User', UserSchema);
 
 export default UserModel;
