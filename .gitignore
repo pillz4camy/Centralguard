@@ -1,2 +1,15 @@
-node_modules
+
+node_modules/
 .env
+.env.*
+!.env.example
+
+# Archivos de respaldo y temporales
+*.log
+npm-debug.log*
+backup-manual-*/
+
+# Archivos de Windows y editores
+.DS_Store
+Thumbs.db
+.vscode/
