@@ -1,9 +1,18 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import './config/mongo.config.js';
+import novedadRouter from './routers/novedad.routers.js';
+
+dotenv.config();
 
 const app = express();
 
-// Iniciar el servidor
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+app.use(express.json());
+
+app.use('/api/novedades', novedadRouter);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
