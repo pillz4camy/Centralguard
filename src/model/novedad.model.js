@@ -13,7 +13,7 @@ const novedadSchema = new Schema(
     estado: {
       type: String,
       enum: ['Activo', 'Inactivo', 'Pendiente', 'Resuelto'],
-      default: 'Pendiente'
+      required: true 
     }
   },
   {
