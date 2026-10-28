@@ -10,7 +10,7 @@
     "bycrypt",
     "jwt"
   ],
-    "contributors": [
+  "contributors": [
     "Kevin Enciso <kevinencisoe@gmail.com>",
     "Daniel Reyes <yhesua.1979@gmail.com>",
     "Angie Fajardo <angiepaolafajardo23@gmail.com>"
@@ -22,7 +22,12 @@
   "scripts": {
     "dev": "node --watch src/index.js"
   },
-    "dependencies": {
-    "express": "^5.2.1"
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.4"
   }
 }
