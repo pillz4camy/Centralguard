@@ -13,11 +13,11 @@ const dbGetUserByEmail = async (correo) => {
 };
 
 const dbGetUsers = async () => {
-    return await UserModel.find().populate('idroles', 'nombre_rol');
+    return await UserModel.find(); 
 };
 
 const dbGetUserById = async (id) => {
-    return await UserModel.findById(id).populate('idroles', 'nombre_rol');
+    return await UserModel.findById(id);
 };
 
 const dbUpdateUser = async (id, updateData) => {
