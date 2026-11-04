@@ -3,6 +3,7 @@ import conexion from './config/mongo.config.js';
 import userRouter from './routers/user.routers.js'; 
 import equipmentRouter from './routers/equipment.routers.js';
 import cors from 'cors';
+import { errorHandler } from './middleware/errors.js';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get('/health', (req, res) => {
 // Montar Rutas
 app.use("/api/users", userRouter); 
 app.use("/api/equipos", equipmentRouter);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
