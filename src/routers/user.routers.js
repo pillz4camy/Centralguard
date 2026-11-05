@@ -1,22 +1,17 @@
-import { Router } from "express";
-import { 
-    getUsers, 
-    getUserById, 
-    registrarUsers, 
-    actualizarUsers, 
-    eliminarUsers,
-    loginUser 
-} from "../controllers/user.controllers.js";
-import { verifyToken } from "../middleware/auth.middleware.js";
+import { Router } from 'express';
+import * as ctrl from '../controllers/user.controllers.js';
+import { requireAuth, requireRol } from '../middleware/auth.js';
 
 const router = Router();
 
-router.post('/', registrarUsers);
-router.post('/login', loginUser);
+router.post('/', ctrl.registrar);        
+router.post('/register', ctrl.registrar);
+router.post('/login', ctrl.login);     
 
-router.get('/', verifyToken, getUsers);
-router.get('/:id', verifyToken, getUserById);
-router.put('/:id', verifyToken, actualizarUsers);       
-router.delete('/:id', verifyToken, eliminarUsers);    
+
+router.get('/perfil', requireAuth, ctrl.perfil);
+router.get('/', requireAuth, requireRol('administrador'), ctrl.listar);
+router.put('/:id', requireAuth, requireRol('administrador'), ctrl.actualizar);
+router.delete('/:id', requireAuth, requireRol('administrador'), ctrl.eliminar);
 
 export default router;

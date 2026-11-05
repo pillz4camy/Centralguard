@@ -1,19 +1,39 @@
-import EquipmentModel from '../model/equipment.model.js';
+import mongoose from 'mongoose';
+import Equipment from '../model/equipment.model.js';
+import { HttpError } from '../middleware/errors.js';
 
-const dbCreateEquipment = async (data) => new EquipmentModel(data).save();
+const validarId = (id) => {
+  if (!mongoose.isValidObjectId(id)) throw new HttpError(400, 'El id no es válido');
+  return String(id);
+};
 
-const dbGetEquipments = async (filter = {}) => await EquipmentModel.find(filter);
+export const listar = async (query = {}) => {
+  const filtro = {};
+  if (query.estado) filtro.estado = query.estado;
+  return Equipment.find(filtro).sort({ createdAt: -1 });
+};
 
-const dbGetEquipmentById = async (id) => await EquipmentModel.findById(id);
+export const obtener = async (id) => {
+  const eq = await Equipment.findById(validarId(id));
+  if (!eq) throw new HttpError(404, 'Equipo no encontrado');
+  return eq;
+};
 
-const dbUpdateEquipment = async (id, data) => await EquipmentModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+export const crear = async (body) => {
+  const { nombre, serial } = body || {};
+  if (!nombre || !serial) throw new HttpError(400, 'Nombre y serial son obligatorios');
+  return Equipment.create(body);
+};
 
-const dbDeleteEquipment = async (id) => await EquipmentModel.findByIdAndDelete(id);
+export const actualizar = async (id, body) => {
+  validarId(id);
+  const eq = await Equipment.findByIdAndUpdate(id, body, { new: true, runValidators: true });
+  if (!eq) throw new HttpError(404, 'Equipo no encontrado');
+  return eq;
+};
 
-export {
-    dbCreateEquipment,
-    dbGetEquipments,
-    dbGetEquipmentById,
-    dbUpdateEquipment,
-    dbDeleteEquipment
+export const eliminar = async (id) => {
+  const eq = await Equipment.findByIdAndDelete(validarId(id));
+  if (!eq) throw new HttpError(404, 'Equipo no encontrado');
+  return eq;
 };

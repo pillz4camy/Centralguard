@@ -1,14 +1,15 @@
 import { Schema, model } from 'mongoose';
 
+export const ROLES_USUARIO = ['administrador', 'supervisor', 'vigilante'];
+
 const userSchema = new Schema(
   {
+    nombre: { type: String, required: true, trim: true },
     correo: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    contrasenia: { type: String, required: true, select: false },
-    nombre: { type: String, required: true, trim: true, maxlength: 15 },
-    apellido: { type: String, required: true, trim: true, maxlength: 45 },
-    fecha_creacion: { type: Date, default: Date.now },
+    contrasenia: { type: String, required: true },
+    rol: { type: String, enum: ROLES_USUARIO, default: 'vigilante' },
   },
-  { collection: 'usuarios', versionKey: false }
+  { collection: 'users', timestamps: true, versionKey: false }
 );
 
 export default model('User', userSchema);
