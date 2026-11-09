@@ -9,36 +9,36 @@ export const normalizarRol = (r) => {
   return x === 'admin' ? 'administrador' : x;
 };
 
-// Tu función verifyToken adaptada
 export const verifyToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) {
-        return res.status(401).json({ 
-            success: false, 
-            message: 'Acceso denegado. No se proporcionó un token de autenticación.' 
-        });
-    }
+  if (!token) {
+    return res.status(401).json({ 
+      success: false, 
+      message: 'Acceso denegado. No se proporcionó un token de autenticación.' 
+    });
+  }
 
-    try {
-        const secretKey = process.env.JWT_SECRET || 'clave_secreta_centralguard_2026';
-        const verified = jwt.verify(token, secretKey);
-        
-        // Aseguramos estandarizar idusuario y rol normalizado
-        req.user = {
-            ...verified,
-            idusuario: String(verified.idusuario || verified.id || ''),
-            rol: normalizarRol(verified.rol)
-        };
-        
-        next();
-    } catch (error) {
-        return res.status(403).json({ 
-            success: false, 
-            message: 'Token inválido o expirado.' 
-        });
-    }
+  try {
+    const secretKey = process.env.JWT_SECRET || 'clave_secreta_centralguard_2026';
+    const verified = jwt.verify(token, secretKey);
+    
+    const userId = String(verified.id || verified.idusuario || '');
+    req.user = {
+      ...verified,
+      id: userId,
+      idusuario: userId,
+      rol: normalizarRol(verified.rol)
+    };
+    
+    next();
+  } catch (error) {
+    return res.status(403).json({ 
+      success: false, 
+      message: 'Token inválido o expirado.' 
+    });
+  }
 };
 
 // Alias para mantener compatibilidad con las rutas que usan requireAuth
@@ -50,5 +50,5 @@ export const requireRol = (...permitidos) => (req, res, next) =>
     ? next()
     : next(new HttpError(403, `Solo ${permitidos.join(' o ')} pueden hacer esto`));
 
-// Validación de roles de gestión (usada en servicios de objetos perdidos)
+// Validación de roles de gestión
 export const esGestion = (user) => ['administrador', 'supervisor'].includes(user?.rol);

@@ -9,22 +9,51 @@ const validarId = (id) => {
   return String(id);
 };
 
-export const registrar = async (body) => {
-  const { nombre, correo, contrasenia, rol } = body || {};
-  if (!nombre || !correo || !contrasenia) {
-    throw new HttpError(400, 'Nombre, correo y contraseña son obligatorios');
+export const registrar = async (body, esAdmin = false) => {
+  const { nombre, apellido, correo, contrasenia, documento, telefono, rol } = body || {};
+
+  const docNumero = typeof documento === 'object' ? documento?.numero : documento;
+  const docTipo = typeof documento === 'object' ? (documento?.tipo || 'CC') : 'CC';
+
+  if (!nombre || !apellido || !correo || !contrasenia || !docNumero) {
+    throw new HttpError(400, 'Nombre, apellido, correo, contraseña y número de documento son obligatorios');
   }
 
-  const existe = await User.findOne({ correo: correo.toLowerCase().trim() });
+  const email = correo.toLowerCase().trim();
+  const existe = await User.findOne({ correo: email });
   if (existe) throw new HttpError(400, 'El correo ya está registrado');
 
   const passwordHash = await bcrypt.hash(contrasenia, 10);
 
+  // Solo un admin autenticado puede asignar rol diferente a vigilante
+  const rolAsignado = esAdmin && rol && ROLES_USUARIO.includes(rol) ? rol : 'vigilante';
+
+  let telefonoData;
+  if (telefono) {
+    if (typeof telefono === 'object') {
+      telefonoData = {
+        tipo: telefono.tipo || 'móvil',
+        numero: String(telefono.numero || '').trim()
+      };
+    } else {
+      telefonoData = {
+        tipo: 'móvil',
+        numero: String(telefono).trim()
+      };
+    }
+  }
+
   const usuario = await User.create({
     nombre: nombre.trim(),
-    correo: correo.toLowerCase().trim(),
+    apellido: apellido.trim(),
+    correo: email,
     contrasenia: passwordHash,
-    rol: rol && ROLES_USUARIO.includes(rol) ? rol : 'vigilante'
+    documento: {
+      tipo: docTipo,
+      numero: String(docNumero).trim()
+    },
+    telefono: telefonoData,
+    rol: rolAsignado
   });
 
   const obj = usuario.toObject();
@@ -48,7 +77,16 @@ export const login = async (body) => {
     { expiresIn: '8h' }
   );
 
-  return { token, usuario: { id: usuario._id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol } };
+  return { 
+    token, 
+    usuario: { 
+      id: usuario._id, 
+      nombre: usuario.nombre, 
+      apellido: usuario.apellido,
+      correo: usuario.correo, 
+      rol: usuario.rol 
+    } 
+  };
 };
 
 export const perfil = async (id) => {
@@ -57,13 +95,42 @@ export const perfil = async (id) => {
   return u;
 };
 
-export const listar = async () => User.find().select('-contrasenia').sort({ createdAt: -1 });
+export const listar = async (query = {}) => {
+  const filtro = {};
+  if (query.rol) {
+    if (!ROLES_USUARIO.includes(query.rol)) throw new HttpError(400, 'Rol inválido');
+    filtro.rol = query.rol;
+  }
+  if (query.activo !== undefined) filtro.activo = query.activo === 'true';
+
+  return User.find(filtro).select('-contrasenia').sort({ createdAt: -1 });
+};
 
 export const actualizar = async (id, body) => {
   validarId(id);
   const datos = {};
   if (body.nombre) datos.nombre = body.nombre.trim();
+  if (body.apellido) datos.apellido = body.apellido.trim();
   if (body.correo) datos.correo = body.correo.toLowerCase().trim();
+  if (body.documento) {
+    const docNumero = typeof body.documento === 'object' ? body.documento.numero : body.documento;
+    const docTipo = typeof body.documento === 'object' ? (body.documento.tipo || 'CC') : 'CC';
+    datos.documento = { tipo: docTipo, numero: String(docNumero).trim() };
+  }
+  if (body.telefono) {
+    if (typeof body.telefono === 'object') {
+      datos.telefono = {
+        tipo: body.telefono.tipo || 'móvil',
+        numero: String(body.telefono.numero || '').trim()
+      };
+    } else {
+      datos.telefono = {
+        tipo: 'móvil',
+        numero: String(body.telefono).trim()
+      };
+    }
+  }
+  if (body.activo !== undefined) datos.activo = Boolean(body.activo);
   if (body.rol) {
     if (!ROLES_USUARIO.includes(body.rol)) throw new HttpError(400, 'Rol inválido');
     datos.rol = body.rol;

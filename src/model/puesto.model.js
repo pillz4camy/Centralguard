@@ -1,17 +1,26 @@
 import { Schema, model } from 'mongoose';
 
-export const TIPOS = ['Portería', 'Recepción', 'Parqueadero', 'Ronda', 'Torre', 'Zona común', 'Otro'];
+export const TIPOS_PUESTO = ['Portería Principal', 'Portería Vehicular', 'Recepción', 'Parqueadero', 'Torre', 'Ronda', 'Otro'];
 
 const puestoSchema = new Schema(
   {
-    nombre: { type: String, required: true, unique: true, trim: true, maxlength: 100 },
-    tipo: { type: String, enum: TIPOS, default: 'Otro' },
-    ubicacion: { type: String, trim: true, maxlength: 150 },
-    descripcion: { type: String, trim: true, maxlength: 255 },
-    vigilantes_requeridos: { type: Number, min: 1, max: 50, default: 1 },
-    activo: { type: Boolean, default: true },
+    nombre_identificador: { type: String, required: true, trim: true, maxlength: 100 },
+    tipo_puesto: { type: String, enum: TIPOS_PUESTO, default: 'Portería Principal' },
+    conjunto: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Conjunto', 
+      required: true 
+    },
+    descripcion: { type: String, trim: true },
+    activo: { type: Boolean, default: true }
   },
-  { collection: 'puestos', timestamps: true, versionKey: false }
+  {  
+    collection: 'puestos_vigilancia', 
+    timestamps: true, 
+    versionKey: false 
+  }
 );
+
+puestoSchema.index({ conjunto: 1, nombre_identificador: 1 });
 
 export default model('Puesto', puestoSchema);

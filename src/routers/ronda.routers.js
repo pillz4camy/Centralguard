@@ -8,6 +8,7 @@ router.use(requireAuth);
 router.get('/', getRondas);
 router.get('/:id', getRonda);
 router.post('/', registrarRonda);
+router.put('/:id', updateRonda);
 router.patch('/:id', updateRonda);
 router.delete('/:id', requireRol('administrador', 'supervisor'), deleteRonda);
 

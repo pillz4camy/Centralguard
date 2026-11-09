@@ -10,7 +10,7 @@ export const createNovedad = async (req, res) =>
   res.status(201).json(await createNovedadService(req.body));
 
 export const getNovedades = async (req, res) => 
-  res.status(200).json(await getNovedadesService());
+  res.status(200).json(await getNovedadesService(req.query));
 
 export const getNovedadById = async (req, res) => 
   res.status(200).json(await getNovedadByIdService(req.params.id));

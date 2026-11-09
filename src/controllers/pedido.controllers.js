@@ -10,7 +10,7 @@ export const createPedido = async (req, res) =>
   res.status(201).json(await createPedidoService(req.body));
 
 export const getPedidos = async (req, res) => 
-  res.status(200).json(await getPedidosService());
+  res.status(200).json(await getPedidosService(req.query));
 
 export const getPedidoById = async (req, res) => 
   res.status(200).json(await getPedidoByIdService(req.params.id));

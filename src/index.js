@@ -13,6 +13,9 @@ import vehiculoRouter from './routers/vehiculo.routers.js';
 import novedadRouter from './routers/novedad.routers.js';
 import userRouter from './routers/user.routers.js'; 
 import pedidoRouter from './routers/pedido.routers.js';
+import equipmentRouter from './routers/equipment.routers.js';
+import conjuntoRouter from './routers/conjunto.routers.js';
+import registroAccesoRouter from './routers/registro_acceso.routers.js';
 
 if (!process.env.JWT_SECRET) { 
   console.error('Falta JWT_SECRET en el .env'); 
@@ -29,15 +32,18 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '100kb' }));
 
-
-app.use('/api/objetos-perdidos', objetoRouter);
-app.use('/api/personas-acceso', personaAccesoRouter);
+// Rutas de la API
+app.use('/api/users', userRouter); 
+app.use('/api/conjuntos', conjuntoRouter);
 app.use('/api/puestos', puestoRouter);
+app.use('/api/equipos', equipmentRouter);
 app.use('/api/turnos', turnoRouter);
 app.use('/api/rondas', rondaRouter);
-app.use('/api/novedades', novedadRouter);
+app.use('/api/personas-acceso', personaAccesoRouter);
 app.use('/api/vehiculos', vehiculoRouter);
-app.use('/api/users', userRouter); 
+app.use('/api/registros-acceso', registroAccesoRouter);
+app.use('/api/novedades', novedadRouter);
+app.use('/api/objetos-perdidos', objetoRouter);
 app.use('/api/pedidos', pedidoRouter);
 
 app.use(notFound);

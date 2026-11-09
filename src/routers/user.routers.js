@@ -8,10 +8,10 @@ router.post('/', ctrl.registrar);
 router.post('/register', ctrl.registrar);
 router.post('/login', ctrl.login);     
 
-
 router.get('/perfil', requireAuth, ctrl.perfil);
 router.get('/', requireAuth, requireRol('administrador'), ctrl.listar);
 router.put('/:id', requireAuth, requireRol('administrador'), ctrl.actualizar);
+router.patch('/:id', requireAuth, requireRol('administrador'), ctrl.actualizar);
 router.delete('/:id', requireAuth, requireRol('administrador'), ctrl.eliminar);
 
 export default router;
