@@ -2,9 +2,21 @@
   "info": {
     "_postman_id": "centralguard-api-collection-2026",
     "name": "Centralguard API - Colección Oficial (Trimestre 5)",
-    "description": "Colección completa para pruebas de la API REST Centralguard con autenticación JWT, roles (administrador y vigilante) y códigos de estado HTTP.",
+    "description": "Colección completa documentada con respuestas de ejemplo (200, 201, 400, 401, 403, 404, 500) para la API Centralguard.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
   "auth": {
     "type": "bearer",
     "bearer": [
@@ -22,14 +34,51 @@
         {
           "name": "Health Check",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/health",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "health"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Servidor en línea",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"statusCode\": 200,\n  \"status\": \"ok\",\n  \"servicio\": \"Centralguard API\",\n  \"version\": \"1.0.0\",\n  \"uptime\": 125,\n  \"timestamp\": \"2026-11-10T15:30:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -37,41 +86,122 @@
       "name": "1. Autenticación & Usuarios",
       "item": [
         {
-          "name": "Registrar Administrador",
+          "name": "Registrar usuario",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"nombre\": \"Admin\",\n  \"apellido\": \"Principal\",\n  \"documento\": \"123123\",\n  \"correo\": \"admin@centralguard.com\",\n  \"contrasenia\": \"123456\",\n  \"rol\": \"administrador\",\n  \"telefono\": {\n    \"tipo\": \"móvil\",\n    \"numero\": \"3001234567\"\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
             }
-          }
-        },
-        {
-          "name": "Registrar Vigilante",
-          "request": {
-            "auth": { "type": "noauth" },
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"apellido\": \"Guarda\",\n  \"documento\": \"987654\",\n  \"correo\": \"vigilante@centralguard.com\",\n  \"contrasenia\": \"123456\",\n  \"rol\": \"vigilante\",\n  \"telefono\": {\n    \"tipo\": \"móvil\",\n    \"numero\": \"3107654321\"\n  }\n}"
+          },
+          "response": [
+            {
+              "name": "201 - Usuario registrado exitosamente",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd158b0f719bb445b201\",\n  \"nombre\": \"Admin\",\n  \"apellido\": \"Principal\",\n  \"correo\": \"admin@centralguard.com\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"123123\"\n  },\n  \"telefono\": {\n    \"tipo\": \"móvil\",\n    \"numero\": \"3001234567\"\n  },\n  \"rol\": \"administrador\",\n  \"activo\": true,\n  \"createdAt\": \"2026-11-10T15:19:22.821Z\",\n  \"updatedAt\": \"2026-11-10T15:19:22.821Z\"\n}"
             },
-            "url": {
-              "raw": "{{baseUrl}}/api/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users"]
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"Nombre, apellido, correo, contraseña y número de documento son obligatorios\"\n}"
+            },
+            {
+              "name": "400 - Correo ya registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"El correo ya está registrado\"\n}"
             }
-          }
+          ]
         },
         {
-          "name": "Iniciar Sesión (Login) - Guarda Token Automático",
+          "name": "Iniciar sesión",
           "event": [
             {
               "listen": "test",
@@ -80,8 +210,9 @@
                   "if (pm.response.code === 200) {",
                   "    var json = pm.response.json();",
                   "    if (json.token) {",
+                  "        pm.collectionVariables.set(\"token\", json.token);",
                   "        pm.environment.set(\"token\", json.token);",
-                  "        console.log(\"Token JWT guardado automáticamente en el entorno\");",
+                  "        console.log(\"Token JWT guardado exitosamente\");",
                   "    }",
                   "}"
                 ],
@@ -90,42 +221,798 @@
             }
           ],
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"correo\": \"admin@centralguard.com\",\n  \"contrasenia\": \"123456\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/users/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Inicio de sesión",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"usuario\": {\n    \"id\": \"6730cd158b0f719bb445b201\",\n    \"nombre\": \"Admin\",\n    \"apellido\": \"Principal\",\n    \"correo\": \"admin@centralguard.com\",\n    \"rol\": \"administrador\"\n  }\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"Correo y contraseña requeridos\"\n}"
+            },
+            {
+              "name": "401 - Correo o contraseña incorrectos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Credenciales inválidas\"\n}"
+            }
+          ]
         },
         {
-          "name": "Obtener Perfil Autenticado",
+          "name": "Obtener perfil del usuario",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/users/perfil",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", "perfil"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "perfil"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Perfil autenticado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd158b0f719bb445b201\",\n  \"nombre\": \"Admin\",\n  \"apellido\": \"Principal\",\n  \"correo\": \"admin@centralguard.com\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"123123\"\n  },\n  \"telefono\": {\n    \"tipo\": \"móvil\",\n    \"numero\": \"3001234567\"\n  },\n  \"rol\": \"administrador\",\n  \"activo\": true\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "401 - Token inválido o expirado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Token inválido o expirado.\"\n}"
+            }
+          ]
         },
         {
-          "name": "Listar Usuarios (Solo Admin)",
+          "name": "Obtener todos los usuarios",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/users?rol=administrador",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users"],
-              "query": [{ "key": "rol", "value": "administrador" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "rol",
+                  "value": "administrador"
+                }
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de usuarios",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd158b0f719bb445b201\",\n    \"nombre\": \"Admin\",\n    \"apellido\": \"Principal\",\n    \"correo\": \"admin@centralguard.com\",\n    \"documento\": {\n      \"tipo\": \"CC\",\n      \"numero\": \"123123\"\n    },\n    \"rol\": \"administrador\",\n    \"activo\": true\n  },\n  {\n    \"_id\": \"6730cd158b0f719bb445b202\",\n    \"nombre\": \"Carlos\",\n    \"apellido\": \"Guarda\",\n    \"correo\": \"vigilante@centralguard.com\",\n    \"documento\": {\n      \"tipo\": \"CC\",\n      \"numero\": \"987654\"\n    },\n    \"rol\": \"vigilante\",\n    \"activo\": true\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar el usuario completo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Admin Actualizado\",\n  \"apellido\": \"Principal\",\n  \"correo\": \"admin@centralguard.com\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"123123\"\n  },\n  \"rol\": \"administrador\",\n  \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/6730cd158b0f719bb445b201",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "6730cd158b0f719bb445b201"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Actualizado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd158b0f719bb445b201\",\n  \"nombre\": \"Admin Actualizado\",\n  \"apellido\": \"Principal\",\n  \"correo\": \"admin@centralguard.com\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"123123\"\n  },\n  \"rol\": \"administrador\",\n  \"activo\": true\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio o inválido",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"Rol inválido. Solo se permite 'administrador' o 'vigilante'\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            },
+            {
+              "name": "404 - Usuario no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Usuario no encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar usuario parcialmente",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activo\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/6730cd158b0f719bb445b201",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "6730cd158b0f719bb445b201"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Actualizado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd158b0f719bb445b201\",\n  \"nombre\": \"Admin\",\n  \"apellido\": \"Principal\",\n  \"activo\": false\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"El identificador '123' no tiene un formato válido.\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            },
+            {
+              "name": "404 - Usuario no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Usuario no encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/users/6730cd158b0f719bb445b201",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "6730cd158b0f719bb445b201"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Eliminado correctamente",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Usuario eliminado correctamente\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            },
+            {
+              "name": "404 - Usuario no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Usuario no encontrado\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -133,20 +1020,144 @@
       "name": "2. Conjuntos",
       "item": [
         {
-          "name": "Crear Conjunto (Solo Admin)",
+          "name": "Crear Conjunto",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles\",\n  \"nit\": \"901234567-8\",\n  \"direccion\": \"Carrera 45 # 120-30\",\n  \"correo_electronico\": \"admin@losrobles.com\",\n  \"telefono\": {\n    \"tipo\": \"fijo\",\n    \"numero\": \"6016543210\"\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/conjuntos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "conjuntos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "conjuntos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "201 - Conjunto creado exitosamente",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd208b0f719bb445b210\",\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles\",\n  \"nit\": \"901234567-8\",\n  \"direccion\": \"Carrera 45 # 120-30\",\n  \"correo_electronico\": \"admin@losrobles.com\",\n  \"activo\": true\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"nombre_conjunto y direccion son obligatorios\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
         },
         {
           "name": "Listar Conjuntos",
@@ -154,10 +1165,476 @@
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/conjuntos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "conjuntos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "conjuntos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de conjuntos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd208b0f719bb445b210\",\n    \"nombre_conjunto\": \"Conjunto Residencial Los Robles\",\n    \"nit\": \"901234567-8\",\n    \"direccion\": \"Carrera 45 # 120-30\",\n    \"activo\": true\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener Conjunto por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjuntos/6730cd208b0f719bb445b210",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "conjuntos",
+                "6730cd208b0f719bb445b210"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Conjunto obtenido",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd208b0f719bb445b210\",\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles\",\n  \"nit\": \"901234567-8\",\n  \"direccion\": \"Carrera 45 # 120-30\",\n  \"activo\": true\n}"
+            },
+            {
+              "name": "400 - ID inválido",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"El identificador 'abc' no tiene un formato válido.\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "404 - Conjunto no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Conjunto no encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Conjunto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles Real\",\n  \"direccion\": \"Carrera 45 # 120-30 Piso 1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/conjuntos/6730cd208b0f719bb445b210",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "conjuntos",
+                "6730cd208b0f719bb445b210"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Conjunto actualizado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd208b0f719bb445b210\",\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles Real\",\n  \"direccion\": \"Carrera 45 # 120-30 Piso 1\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            },
+            {
+              "name": "404 - Conjunto no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Conjunto no encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Conjunto",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/conjuntos/6730cd208b0f719bb445b210",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "conjuntos",
+                "6730cd208b0f719bb445b210"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Conjunto eliminado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd208b0f719bb445b210\",\n  \"nombre_conjunto\": \"Conjunto Residencial Los Robles\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            },
+            {
+              "name": "404 - Conjunto no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Conjunto no encontrado\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -165,15 +1642,368 @@
       "name": "3. Puestos de Vigilancia",
       "item": [
         {
+          "name": "Registrar Puesto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_identificador\": \"Portería Principal 1\",\n  \"tipo_puesto\": \"Fijo\",\n  \"ubicacion\": \"Entrada peatonal principal\",\n  \"conjunto\": \"6730cd208b0f719bb445b210\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/puestos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "puestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Puesto registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd258b0f719bb445b220\",\n  \"nombre_identificador\": \"Portería Principal 1\",\n  \"tipo_puesto\": \"Fijo\",\n  \"ubicacion\": \"Entrada peatonal principal\"\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"nombre_identificador, tipo_puesto y conjunto son obligatorios\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Puestos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/puestos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "puestos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "puestos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de puestos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd258b0f719bb445b220\",\n    \"nombre_identificador\": \"Portería Principal 1\",\n    \"tipo_puesto\": \"Fijo\",\n    \"ubicacion\": \"Entrada peatonal principal\"\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener Puesto por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/puestos/6730cd258b0f719bb445b220",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "puestos",
+                "6730cd258b0f719bb445b220"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Puesto obtenido",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd258b0f719bb445b220\",\n  \"nombre_identificador\": \"Portería Principal 1\"\n}"
+            },
+            {
+              "name": "404 - Puesto no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Puesto no encontrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Puesto",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/puestos/6730cd258b0f719bb445b220",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "puestos",
+                "6730cd258b0f719bb445b220"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Puesto eliminado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd258b0f719bb445b220\",\n  \"nombre_identificador\": \"Portería Principal 1\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -181,16 +2011,300 @@
       "name": "4. Turnos",
       "item": [
         {
+          "name": "Registrar Turno",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conjunto\": \"6730cd208b0f719bb445b210\",\n  \"empleado\": \"6730cd158b0f719bb445b202\",\n  \"puesto_vigilancia\": \"6730cd258b0f719bb445b220\",\n  \"observaciones\": \"Turno de vigilancia diurno\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Turno creado exitosamente",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd308b0f719bb445b230\",\n  \"estado\": \"activo\",\n  \"fecha\": \"2026-11-10T15:30:00.000Z\",\n  \"hora_inicio\": \"2026-11-10T15:30:00.000Z\",\n  \"hora_fin\": null\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"conjunto, empleado y puesto_vigilancia son obligatorios para crear un turno\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Turnos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/turnos?estado=activo",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "turnos"],
-              "query": [{ "key": "estado", "value": "activo" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "activo"
+                }
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de turnos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd308b0f719bb445b230\",\n    \"estado\": \"activo\",\n    \"fecha\": \"2026-11-10T15:30:00.000Z\"\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Finalizar Turno",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/turnos/6730cd308b0f719bb445b230/finalizar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "turnos",
+                "6730cd308b0f719bb445b230",
+                "finalizar"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Turno finalizado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd308b0f719bb445b230\",\n  \"estado\": \"finalizado\",\n  \"hora_fin\": \"2026-11-10T23:30:00.000Z\"\n}"
+            },
+            {
+              "name": "404 - Turno no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Turno no encontrado\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -198,15 +2312,272 @@
       "name": "5. Registros de Acceso",
       "item": [
         {
+          "name": "Registrar Entrada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"turno\": \"6730cd308b0f719bb445b230\",\n  \"persona\": \"6730cd408b0f719bb445b240\",\n  \"apartamento_destino\": \"Torre 3 Apto 501\",\n  \"observaciones_acceso\": \"Entrega de correspondencia\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/registros-acceso",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "registros-acceso"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Registro de acceso creado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd508b0f719bb445b250\",\n  \"apartamento_destino\": \"Torre 3 Apto 501\",\n  \"hora_entrada\": \"2026-11-10T15:35:00.000Z\",\n  \"hora_salida\": null,\n  \"observaciones_acceso\": \"Entrega de correspondencia\"\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"turno, persona y apartamento_destino son obligatorios\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Accesos",
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/registros-acceso",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "registros-acceso"]
+              "raw": "{{baseUrl}}/api/registros-acceso?en_predio=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "registros-acceso"
+              ],
+              "query": [
+                {
+                  "key": "en_predio",
+                  "value": "true"
+                }
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de accesos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd508b0f719bb445b250\",\n    \"apartamento_destino\": \"Torre 3 Apto 501\",\n    \"hora_entrada\": \"2026-11-10T15:35:00.000Z\",\n    \"hora_salida\": null\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registrar Salida",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/registros-acceso/6730cd508b0f719bb445b250/salida",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "registros-acceso",
+                "6730cd508b0f719bb445b250",
+                "salida"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Salida registrada",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd508b0f719bb445b250\",\n  \"apartamento_destino\": \"Torre 3 Apto 501\",\n  \"hora_salida\": \"2026-11-10T16:15:00.000Z\"\n}"
+            },
+            {
+              "name": "404 - Registro de acceso no encontrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 404,\n  \"message\": \"Registro de acceso no encontrado\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -214,15 +2585,265 @@
       "name": "6. Novedades",
       "item": [
         {
+          "name": "Registrar Novedad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"turno\": \"6730cd308b0f719bb445b230\",\n  \"tipo_novedad\": \"Seguridad\",\n  \"descripcion_hechos\": \"Luminaria del parqueadero sótano 1 parpadeando\",\n  \"evidencias\": [\n    {\n      \"url_imagen\": \"https://ejemplo.com/foto1.jpg\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/novedades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "novedades"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Novedad registrada",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd608b0f719bb445b260\",\n  \"tipo_novedad\": \"Seguridad\",\n  \"descripcion_hechos\": \"Luminaria del parqueadero sótano 1 parpadeando\",\n  \"estado\": \"Pendiente\",\n  \"hora_reporte\": \"2026-11-10T15:40:00.000Z\"\n}"
+            },
+            {
+              "name": "400 - Falta de campo obligatorio",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 400,\n  \"message\": \"turno, tipo_novedad y descripcion_hechos son obligatorios\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Novedades",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/novedades",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "novedades"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "novedades"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de novedades",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd608b0f719bb445b260\",\n    \"tipo_novedad\": \"Seguridad\",\n    \"descripcion_hechos\": \"Luminaria del parqueadero sótano 1 parpadeando\",\n    \"estado\": \"Pendiente\"\n  }\n]"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Novedad",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/novedades/6730cd608b0f719bb445b260",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "novedades",
+                "6730cd608b0f719bb445b260"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 - Novedad eliminada",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd608b0f719bb445b260\"\n}"
+            },
+            {
+              "name": "403 - Solo administrador",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 403,\n  \"message\": \"Solo administrador pueden hacer esto\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -230,15 +2851,134 @@
       "name": "7. Equipos",
       "item": [
         {
+          "name": "Registrar Equipo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_activo\": \"Radio Motorola Talkabout\",\n  \"serial_unico\": \"MOT-2026-X1\",\n  \"estado\": \"Bueno\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Equipo registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd708b0f719bb445b270\",\n  \"nombre_activo\": \"Radio Motorola Talkabout\",\n  \"serial_unico\": \"MOT-2026-X1\",\n  \"estado\": \"Bueno\"\n}"
+            },
+            {
+              "name": "401 - Sin token",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"statusCode\": 401,\n  \"message\": \"Acceso denegado. No se proporcionó un token de autenticación.\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Equipos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/equipos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "equipos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de equipos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd708b0f719bb445b270\",\n    \"nombre_activo\": \"Radio Motorola Talkabout\",\n    \"serial_unico\": \"MOT-2026-X1\",\n    \"estado\": \"Bueno\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
@@ -246,31 +2986,213 @@
       "name": "8. Vehículos",
       "item": [
         {
+          "name": "Registrar Vehículo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"placa\": \"XYZ123\",\n  \"tipo\": \"automóvil\",\n  \"marca\": \"Mazda\",\n  \"modelo\": \"3\",\n  \"color\": \"Gris\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/vehiculos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehiculos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Vehículo registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd808b0f719bb445b280\",\n  \"placa\": \"XYZ123\",\n  \"tipo\": \"automóvil\",\n  \"color\": \"Gris\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Vehículos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/vehiculos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "vehiculos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehiculos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de vehículos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd808b0f719bb445b280\",\n    \"placa\": \"XYZ123\",\n    \"tipo\": \"automóvil\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
     {
-      "name": "9. Personas Acceso",
+      "name": "9. Personas de Acceso",
       "item": [
+        {
+          "name": "Registrar Persona de Acceso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"primer_nombre\": \"Juan\",\n  \"primer_apellido\": \"Pérez\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"1020304050\"\n  },\n  \"tipo_persona\": \"visitante\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/personas-acceso",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "personas-acceso"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Persona registrada",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cd908b0f719bb445b290\",\n  \"primer_nombre\": \"Juan\",\n  \"primer_apellido\": \"Pérez\",\n  \"documento\": {\n    \"tipo\": \"CC\",\n    \"numero\": \"1020304050\"\n  },\n  \"tipo_persona\": \"visitante\"\n}"
+            }
+          ]
+        },
         {
           "name": "Listar Personas",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/personas-acceso",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "personas-acceso"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "personas-acceso"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de personas",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cd908b0f719bb445b290\",\n    \"primer_nombre\": \"Juan\",\n    \"primer_apellido\": \"Pérez\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
@@ -278,15 +3200,106 @@
       "name": "10. Pedidos & Paquetería",
       "item": [
         {
+          "name": "Registrar Pedido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_pedido\": \"Caja Servientrega\",\n  \"nombre_destinatario\": \"Ana Gómez\",\n  \"apartamento_destino\": \"Torre 1 Apto 302\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Pedido registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cda08b0f719bb445b2a0\",\n  \"nombre_pedido\": \"Caja Servientrega\",\n  \"nombre_destinatario\": \"Ana Gómez\",\n  \"apartamento_destino\": \"Torre 1 Apto 302\",\n  \"estado\": \"Pendiente\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Pedidos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/pedidos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "pedidos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de pedidos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cda08b0f719bb445b2a0\",\n    \"nombre_pedido\": \"Caja Servientrega\",\n    \"estado\": \"Pendiente\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
@@ -294,15 +3307,106 @@
       "name": "11. Objetos Perdidos",
       "item": [
         {
+          "name": "Registrar Objeto Perdido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"turno\": \"6730cd308b0f719bb445b230\",\n  \"descripcion_objeto\": \"Llaves con llavero de cuero\",\n  \"lugar_hallazgo\": \"Parqueadero de visitas\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/objetos-perdidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "objetos-perdidos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Objeto registrado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_id\": \"6730cdb08b0f719bb445b2b0\",\n  \"descripcion_objeto\": \"Llaves con llavero de cuero\",\n  \"estado_objeto\": \"En Custodia\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Listar Objetos Perdidos",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/api/objetos-perdidos",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "objetos-perdidos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "objetos-perdidos"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "200 - Lista de objetos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"6730cdb08b0f719bb445b2b0\",\n    \"descripcion_objeto\": \"Llaves con llavero de cuero\",\n    \"estado_objeto\": \"En Custodia\"\n  }\n]"
+            }
+          ]
         }
       ]
     }

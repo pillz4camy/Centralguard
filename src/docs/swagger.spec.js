@@ -3,7 +3,7 @@ export const swaggerSpec = {
   info: {
     title: 'Centralguard API',
     version: '1.0.0',
-    description: 'API REST para el sistema de control de accesos, vigilancia y seguridad Centralguard (Trimestre 5). Solo roles permitidos: administrador y vigilante.',
+    description: 'API REST para el sistema de control de accesos, vigilancia y seguridad Centralguard (Trimestre 5).',
     contact: {
       name: 'Equipo Centralguard'
     }
@@ -183,13 +183,33 @@ export const swaggerSpec = {
     },
     '/api/users/{id}': {
       put: {
-        summary: 'Actualizar usuario (Solo Administrador)',
+        summary: 'Actualizar usuario completo (Solo Administrador)',
+        security: [{ bearerAuth: [] }],
+        tags: ['Usuarios & Autenticación'],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/UsuarioRegistro' } } }
+        },
+        responses: {
+          200: { description: 'Usuario actualizado' },
+          400: { description: 'Falta de campo obligatorio o datos inválidos', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          401: { description: 'Sin token de autenticación', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          403: { description: 'Solo administrador', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          404: { description: 'Usuario no encontrado', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } }
+        }
+      },
+      patch: {
+        summary: 'Actualizar usuario parcialmente (Solo Administrador)',
         security: [{ bearerAuth: [] }],
         tags: ['Usuarios & Autenticación'],
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
         responses: {
-          200: { description: 'Usuario actualizado' },
-          404: { description: 'Usuario no encontrado' }
+          200: { description: 'Usuario actualizado parcialmente' },
+          400: { description: 'ID o campos inválidos', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          401: { description: 'Sin token de autenticación', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          403: { description: 'Solo administrador', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          404: { description: 'Usuario no encontrado', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } }
         }
       },
       delete: {
@@ -199,7 +219,9 @@ export const swaggerSpec = {
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
         responses: {
           200: { description: 'Usuario eliminado' },
-          404: { description: 'Usuario no encontrado' }
+          401: { description: 'Sin token de autenticación', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          403: { description: 'Solo administrador', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } },
+          404: { description: 'Usuario no encontrado', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } }
         }
       }
     },
