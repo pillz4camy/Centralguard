@@ -9,6 +9,7 @@ export class HttpError extends Error {
 export const notFound = (req, res, next) => {
   res.status(404).json({
     success: false,
+    statusCode: 404,
     message: `Ruta ${req.method} ${req.originalUrl} no encontrada`
   });
 };
@@ -20,7 +21,7 @@ export const errorHandler = (err, req, res, next) => {
     // 1. Error de duplicado en MongoDB 
     if (err.code === 11000) {
         statusCode = 400;
-        const campo = Object.keys(err.keyValue)[0];
+        const campo = err.keyValue ? Object.keys(err.keyValue)[0] : 'identificador';
         message = `El campo '${campo}' ya se encuentra registrado en el sistema.`;
     }
 
@@ -38,6 +39,7 @@ export const errorHandler = (err, req, res, next) => {
 
     res.status(statusCode).json({
         success: false,
+        statusCode,
         message
     });
 };

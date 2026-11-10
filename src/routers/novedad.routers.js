@@ -17,6 +17,6 @@ router.get('/', getNovedades);
 router.get('/:id', getNovedadById);
 router.put('/:id', updateNovedad);      
 router.patch('/:id', patchNovedad);   
-router.delete('/:id', requireRol('administrador', 'supervisor'), deleteNovedad);
+router.delete('/:id', requireRol('administrador'), deleteNovedad);
 
 export default router;

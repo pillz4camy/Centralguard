@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-export const ROLES_USUARIO = ['administrador', 'supervisor', 'vigilante'];
+export const ROLES_USUARIO = ['administrador', 'vigilante'];
 export const TIPOS_DOCUMENTO = ['CC', 'CE', 'PASAPORTE', 'PEP'];
 
 const userSchema = new Schema(

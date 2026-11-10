@@ -16,6 +16,7 @@ import pedidoRouter from './routers/pedido.routers.js';
 import equipmentRouter from './routers/equipment.routers.js';
 import conjuntoRouter from './routers/conjunto.routers.js';
 import registroAccesoRouter from './routers/registro_acceso.routers.js';
+import docsRouter from './routers/docs.routers.js';
 
 if (!process.env.JWT_SECRET) { 
   console.error('Falta JWT_SECRET en el .env'); 
@@ -31,6 +32,23 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json({ limit: '100kb' }));
+
+// Ruta raíz y salud
+app.get('/', (req, res) => res.redirect('/api/docs'));
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    status: 'ok',
+    servicio: 'Centralguard API',
+    version: '1.0.0',
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Documentación interactiva Swagger
+app.use('/api/docs', docsRouter);
 
 // Rutas de la API
 app.use('/api/users', userRouter); 

@@ -9,9 +9,9 @@ router.use(requireAuth);
 
 router.get('/', getPuestos);
 router.get('/:id', getPuesto);
-router.post('/', requireRol('administrador', 'supervisor'), registrarPuesto);
-router.put('/:id', requireRol('administrador', 'supervisor'), actualizarPuesto);
-router.patch('/:id', requireRol('administrador', 'supervisor'), actualizarParcialPuesto);
-router.delete('/:id', requireRol('administrador', 'supervisor'), eliminarPuesto);
+router.post('/', requireRol('administrador'), registrarPuesto);
+router.put('/:id', requireRol('administrador'), actualizarPuesto);
+router.patch('/:id', requireRol('administrador'), actualizarParcialPuesto);
+router.delete('/:id', requireRol('administrador'), eliminarPuesto);
 
 export default router;

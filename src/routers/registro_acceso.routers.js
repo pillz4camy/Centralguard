@@ -10,6 +10,6 @@ router.get('/:id', ctrl.getRegistro);
 router.post('/', ctrl.crearRegistro);
 router.patch('/:id/salida', ctrl.registrarSalida);
 router.put('/:id', ctrl.actualizarRegistro);
-router.delete('/:id', requireRol('administrador', 'supervisor'), ctrl.eliminarRegistro);
+router.delete('/:id', requireRol('administrador'), ctrl.eliminarRegistro);
 
 export default router;

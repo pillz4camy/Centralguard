@@ -12,6 +12,6 @@ router.get('/:id', getVehiculo);
 router.post('/', registrarVehiculo);
 router.put('/:id', updateVehiculo);
 router.patch('/:id', updateVehiculo);
-router.delete('/:id', requireRol('administrador', 'supervisor'), deleteVehiculo);
+router.delete('/:id', requireRol('administrador'), deleteVehiculo);
 
 export default router;

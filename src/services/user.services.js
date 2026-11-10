@@ -25,8 +25,10 @@ export const registrar = async (body, esAdmin = false) => {
 
   const passwordHash = await bcrypt.hash(contrasenia, 10);
 
-  // Solo un admin autenticado puede asignar rol diferente a vigilante
-  const rolAsignado = esAdmin && rol && ROLES_USUARIO.includes(rol) ? rol : 'vigilante';
+  // Asignación de rol: solo existen 'administrador' y 'vigilante'. Por defecto 'vigilante'.
+  const rolLimpio = rol ? String(rol).trim().toLowerCase() : '';
+  const rolNormalizado = rolLimpio === 'admin' ? 'administrador' : rolLimpio;
+  const rolAsignado = ROLES_USUARIO.includes(rolNormalizado) ? rolNormalizado : 'vigilante';
 
   let telefonoData;
   if (telefono) {
@@ -98,8 +100,11 @@ export const perfil = async (id) => {
 export const listar = async (query = {}) => {
   const filtro = {};
   if (query.rol) {
-    if (!ROLES_USUARIO.includes(query.rol)) throw new HttpError(400, 'Rol inválido');
-    filtro.rol = query.rol;
+    const rolNormalizado = String(query.rol).trim().toLowerCase() === 'admin' ? 'administrador' : String(query.rol).trim().toLowerCase();
+    if (!ROLES_USUARIO.includes(rolNormalizado)) {
+      throw new HttpError(400, "Rol inválido. Solo se permite 'administrador' o 'vigilante'");
+    }
+    filtro.rol = rolNormalizado;
   }
   if (query.activo !== undefined) filtro.activo = query.activo === 'true';
 
@@ -132,8 +137,12 @@ export const actualizar = async (id, body) => {
   }
   if (body.activo !== undefined) datos.activo = Boolean(body.activo);
   if (body.rol) {
-    if (!ROLES_USUARIO.includes(body.rol)) throw new HttpError(400, 'Rol inválido');
-    datos.rol = body.rol;
+    const rolLimpio = String(body.rol).trim().toLowerCase();
+    const rolNormalizado = rolLimpio === 'admin' ? 'administrador' : rolLimpio;
+    if (!ROLES_USUARIO.includes(rolNormalizado)) {
+      throw new HttpError(400, "Rol inválido. Solo se permite 'administrador' o 'vigilante'");
+    }
+    datos.rol = rolNormalizado;
   }
   if (body.contrasenia) datos.contrasenia = await bcrypt.hash(body.contrasenia, 10);
 

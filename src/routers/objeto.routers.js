@@ -10,6 +10,6 @@ router.get('/:id', ctrl.getObjeto);
 router.post('/', ctrl.crearObjeto);
 router.put('/:id', ctrl.actualizarObjeto);
 router.patch('/:id', ctrl.actualizarObjeto);
-router.delete('/:id', requireRol('administrador', 'supervisor'), ctrl.eliminarObjeto);
+router.delete('/:id', requireRol('administrador'), ctrl.eliminarObjeto);
 
 export default router;

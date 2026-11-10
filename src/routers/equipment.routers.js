@@ -10,6 +10,6 @@ router.get('/:id', ctrl.getEquipmentById);
 router.post('/', ctrl.createEquipment);
 router.put('/:id', ctrl.updateEquipment);
 router.patch('/:id', ctrl.updateEquipment);
-router.delete('/:id', requireRol('administrador', 'supervisor'), ctrl.deleteEquipment);
+router.delete('/:id', requireRol('administrador'), ctrl.deleteEquipment);
 
 export default router;

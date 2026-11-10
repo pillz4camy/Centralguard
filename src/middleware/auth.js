@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { HttpError } from './errors.js';
 
-export const ROLES = ['administrador', 'supervisor', 'vigilante'];
+export const ROLES = ['administrador', 'vigilante'];
 
 // Normaliza el rol por si viene como "admin" u otros formatos
 export const normalizarRol = (r) => {
@@ -34,21 +34,19 @@ export const verifyToken = (req, res, next) => {
     
     next();
   } catch (error) {
-    return res.status(403).json({ 
+    return res.status(401).json({ 
       success: false, 
       message: 'Token inválido o expirado.' 
     });
   }
 };
 
-// Alias para mantener compatibilidad con las rutas que usan requireAuth
+
 export const requireAuth = verifyToken;
 
-// Middleware de roles
 export const requireRol = (...permitidos) => (req, res, next) =>
   permitidos.includes(req.user?.rol)
     ? next()
     : next(new HttpError(403, `Solo ${permitidos.join(' o ')} pueden hacer esto`));
 
-// Validación de roles de gestión
-export const esGestion = (user) => ['administrador', 'supervisor'].includes(user?.rol);
+export const esGestion = (user) => user?.rol === 'administrador';

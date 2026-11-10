@@ -7,10 +7,10 @@ router.use(requireAuth);
 
 router.get('/', getTurnos);
 router.get('/:id', getTurno);
-router.post('/', requireRol('administrador', 'supervisor'), registrarTurno);
-router.put('/:id', requireRol('administrador', 'supervisor'), updateTurno);
-router.patch('/:id', requireRol('administrador', 'supervisor'), updateTurno);
+router.post('/', requireRol('administrador'), registrarTurno);
+router.put('/:id', requireRol('administrador'), updateTurno);
+router.patch('/:id', requireRol('administrador'), updateTurno);
 router.patch('/:id/finalizar', patchFinalizarTurno);
-router.delete('/:id', requireRol('administrador', 'supervisor'), deleteTurno);
+router.delete('/:id', requireRol('administrador'), deleteTurno);
 
 export default router;
